@@ -1,36 +1,33 @@
-name: Python CI
+name: PySpark CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
 
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        pip install pyspark
 
-      - name: Lint with pylint
-        run: |
-          pylint src/main.py
+    - name: Run PySpark Script
+      run: |
+        spark-submit script.py
 
-      - name: Run tests
-        env:
-          PYTHONPATH: ${{ github.workspace }}/src  # Set PYTHONPATH to include src
-        run: |
-          pytest tests
-
+    - name: Run PySpark Tests
+      run: |
+        # Run your test script here, assuming you have a test script named test_script.py
+        spark-submit test_script.py
