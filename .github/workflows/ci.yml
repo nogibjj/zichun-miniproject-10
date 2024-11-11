@@ -25,7 +25,7 @@ jobs:
 
     - name: Run PySpark Script
       run: |
-        spark-submit script.py
+        spark-submit src/script.py
 
     # - name: Run PySpark Tests
     #   run: |
